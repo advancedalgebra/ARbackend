@@ -46,9 +46,9 @@ headers统一都有
 
    ```json
    {
-     	"username": String,
-     	"password": String,
-   	“password_again”: String,
+     "username": "string",
+     "password": "string",
+     "password_again": "string",
    }
    ```
 
@@ -56,7 +56,7 @@ headers统一都有
 
    ```json
    {
-     	"message": "ok",
+     "message": "ok",
    }
    ```
 
@@ -70,9 +70,9 @@ headers统一都有
 
    ```json
    {
-     	"username": String,
-     	"oldPassword": String,
-   	“newPassword”: String,
+     "username": "string",
+     "oldPassword": "string",
+     “newPassword”: "string",
    }
    ```
 
@@ -80,7 +80,7 @@ headers统一都有
 
    ```json
    {
-     	"message": "ok",
+     "message": "ok",
    }
    ```
 
@@ -94,8 +94,8 @@ headers统一都有
 
    ```json
    {
-     	"username": String,
-     	"password": String,
+     "username": "string",
+     "password": "string",
    }
    ```
 
@@ -103,8 +103,8 @@ headers统一都有
 
    ```json
    {
-     	"message": "ok",
-       "token"：生成的token
+     "message": "ok",
+     "token"："生成的token"
    }
    ```
 
@@ -118,8 +118,8 @@ headers统一都有
 
    ```json
    {
-     	"content-type": "application/json"
-       "token": 自己的token
+     "content-type": "application/json"
+     "token": "自己的token"
    }
    ```
 
@@ -127,7 +127,7 @@ headers统一都有
 
    ```json
    {
-     	"username": String,
+     "username": "string",
    }
    ```
 
@@ -135,7 +135,7 @@ headers统一都有
 
    ```json
    {
-     	"message": "ok",
+     "message": "ok",
    }
    ```
 
@@ -149,8 +149,8 @@ headers统一都有
 
    ```json
    {
-     	"username": String,
-     	"password": String,
+     "username": "string",
+     "password": "string",
    }
    ```
 
@@ -158,7 +158,7 @@ headers统一都有
 
    ```json
    {
-     	"message": "ok",
+     "message": "ok",
    }
    ```
 
