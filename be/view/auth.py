@@ -54,17 +54,6 @@ def unregister():
     return resp
 
 
-# @bp.errorhandler(404)
-# def not_found(error=None):
-#     message = {
-#         'status': 404,
-#         'message': 'Not Found: ' + request.url,
-#     }
-#     resp = jsonify(message)
-#     resp.status_code = 404
-#
-#     return resp
-
 @bp.route('/login', methods=['POST'])
 def login():
     json = request.json

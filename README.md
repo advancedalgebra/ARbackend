@@ -1,57 +1,163 @@
-# bookstore
-数据库期末作业
+## 基本情况
 
-[助教项目链接](https://github.com/DaSE-DBMS/bookstore)
+- 数据库：mysql
 
+- 端口：120.79.19.172:3306
+- baseUrl：/ar/api
+- 若不特别说明属性均为String类型、长度为40，自增属性类型为Integer
+- 为方便测试，不使用外键约束
 
-(以得分为导向)
+## Schema
 
-下面是助教文档中列出的几点
+### Building
 
+- 属性：building_id、latitude、longitude、range（公差）、name、description
+- latitude、longitude和range为float类型
+- building_id为主键且自增
+- description长度为400
 
+### User
 
-1.可以扩展.md中的接口，但不要修改（字段可以多，不可以减少或修改参数名，减分项 -5~10分），也不要修改test case（减分项 -5~10分）。
+- 属性：user_id、username、password、token
+- token长度为1000
+- user_id为主键且自增
 
-> 我把doc文件拷下来了, 我们的接口基本上按照他给的格式来写, 有需要添加我们之后再讨论
+### event
 
+- 属性：event_id、building_id、user_id、title、content、time
+- event_id为主键且自增
+- content长度为400
 
+### 识别建筑
 
-测试程序如果有问题可以提bug （加分项，每提1个bug +2, 提1个pull request +5）。<br>
+#### URL
 
+GET /building/where?latitude=latitude&longitude=longitude&range=range
 
+#### 说明
 
-2.核心数据使用关系型数据库（PostgreSQL或MySQL数据库）。
+此接口用来通过用户位置判断要识别的建筑，返回建筑ID。若不能准确判断是哪个建筑，返回一个列表，按可信度排序
 
-数据库我们使用mysql, 配置在下面, 后面可能需要用到NoSQL, 到时候再说
+#### Request
 
-`ip:112.74.41.122 用户名: root 密码: joker`
+##### Header:
 
-blob数据（如图片和大段的文字描述）可以分离出来存其它NoSQL数据库或文件系统。 <br>
+```json
+{
+  "content-type": "application/json"
+}
+```
 
-3.对所有的接口都要写test case，通过测试并计算代码覆盖率（加分项 +5~10）。 <br>
+#### Response
 
-> test case 这一块我后面写个样例, 确定下格式
+##### Body:
 
+```json
+{
+    [
+    	"building_id": 0,
+    	"name": 0,
+    	"description": "",
+    ]
 
+}
+```
 
-4.尽量使用正确的软件工程方法及工具，如，版本控制，测试驱动开发 （加分项 +5~10）<br>
+##### 属性说明：
 
-> 版本控制我们使用git,  测试驱动开发的意思是我们先写test , 再为了完成这个test来写功能, 这个我不知道他怎么查看, 暂时先不管
+暂无
 
-5.后端使用技术，实现语言不限；不要复制这个项目上的后端代码（不是正确的实践， 减分项 -5~10）<br>
+### 获取建筑信息
 
-6.不需要实现页面 <br>
+#### URL
 
-7.最后评估分数时考虑以下要素：<br>
-1）实现完整度，全部测试通过，效率合理 <br>
-2）正确地使用数据库和设计分析工具，ER图，从ER图导出关系模式，规范化，事务处理，索引等 <br>
-3）其它... <br>
+GET /building/content?building_id=building_id
 
+#### 说明
 
+此接口通过建筑id获取建筑的信息，与上一接口是否合并成一个接口自行决定并修改此文件
 
-#TODO
+#### Request
 
-- [ ] 数据库设计
-- [ ] 格式规范(这一块我来做, 我先把auth写完)
-- [ ] 功能完善(auth, buyer, seller)
-- [ ] 测试
+##### Header:
+
+```json
+{
+  "content-type": "application/json"
+}
+```
+
+#### Response
+
+##### Body:
+
+```json
+{
+    "building_id": 0,
+    "name": 0,
+    "description": "",
+}
+```
+
+##### 属性说明：
+
+暂无
+
+## 用户相关操作
+
+### Login
+
+1. url：POST /auth/login
+
+#### Request
+##### header
+```json
+{
+  "content-type": "application/json"
+}
+```
+#### body
+```json
+{
+  "username": "xxx",
+  "password": "xxx"
+}
+```
+### Response
+#### body
+```json
+{
+  "message": "xxx",
+  "token": ""
+}
+```
+### Register
+
+#### url
+
+POST /auth/register
+
+#### Request
+##### header
+```json
+{
+  "content-type": "application/json"
+}
+```
+##### body
+```json
+{
+  "username": "xxx",
+  "password": "xxx",
+  "student_id": "xxx"
+}
+```
+#### Response
+##### body
+```json
+{
+  "message": "xxx",
+}
+```
+
+## Test

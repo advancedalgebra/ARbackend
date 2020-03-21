@@ -3,11 +3,10 @@
 # @Author  : hjcao
 # @contact: redpeanut@163.com
 # @Time    : 2019/12/18 12:36
-# @File    : buyer.py
+# @File    : location.py
 from flask import Blueprint, request
 from werkzeug.security import check_password_hash
 import be as app
-import pymongo
 import time
 from bson.json_util import dumps
 from be.utils.config import *

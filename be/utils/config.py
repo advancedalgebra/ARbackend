@@ -1,8 +1,8 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author  : yhma, hjcao
-# @contact: yhma.dev@outlook.com
-# @Time    : 2019/12/3 16:08
+# @contact: yhma.dev@outlook.com, redpeanut@163.com
+# @Time    : 2020/3/21 17:21
 # @File    : config.py
 
 

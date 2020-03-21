@@ -1,5 +1,3 @@
-import logging
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -20,10 +18,10 @@ def create_app():
         return 'Hello, World!'
 
     from be.view import auth
-    from be.view import buyer
+    from be.view import location
 
-    application.register_blueprint(auth.bp, url_prefix='/auth')
-    application.register_blueprint(buyer.bp, url_prefix='/buyer')
+    application.register_blueprint(auth.bp, url_prefix='/ar/api/auth')
+    application.register_blueprint(location.bp, url_prefix='/ar/api/location')
 
     return application
 
