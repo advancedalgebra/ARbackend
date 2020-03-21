@@ -9,9 +9,9 @@ import time
 from be.utils.config import SECRET_KEY
 
 
-def jwt_encode(user_id, terminal):
+def jwt_encode(user_id):
     encoded = jwt.encode(
-        {"user_id": user_id, "terminal": terminal, "timestamp": time.time()},
+        {"user_id": user_id, "timestamp": time.time()},
         key=SECRET_KEY,
         algorithm="HS256",
     )

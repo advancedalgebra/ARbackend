@@ -1,8 +1,8 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Author  : yhma
-# @contact: yhma.dev@outlook.com
-# @Time    : 2019/12/3 15:38
+# @Author  : hjcao
+# @contact: redpeanut@163.com
+# @Time    : 2020/3/21 17:21
 # @File    : auth.py
 from flask import Blueprint, session, escape, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -15,22 +15,24 @@ db = app.db
 User = app.User
 
 
-bp = Blueprint('auth', __name__)
+bp = Blueprint('/ar/api/auth', __name__)
 
 
 @bp.route('/register', methods=['POST'])
-def add_user():
+def register():
     json = request.json
-    user_id = json['user_id']
+    username = json['username']
     password = json['password']
-
-    if User.query.filter_by(user_id=user_id).first():
+    password_again = json['password_again']
+    if User.query.filter_by(username=username).first():
         resp = generate_resp(FAIL, '注册失败, 用户名重复')
         return resp
+    if password != password_again:
+        resp = generate_resp(FAIL, '注册失败, 密码不一致')
+        return resp
     else:
-        # TODO 数据库插入是否要增加异常判断?
         hashed_pwd = generate_password_hash(password)
-        new_user = User(user_id, hashed_pwd)
+        new_user = User(username, hashed_pwd)
         db.session.add(new_user)
         db.session.commit()
         resp = generate_resp(SUCCESS, 'ok')
@@ -40,9 +42,9 @@ def add_user():
 @bp.route('/unregister', methods=['POST'])
 def unregister():
     json = request.json
-    user_id = json['user_id']
+    username = json['username']
     password = json['password']
-    user = User.query.filter_by(user_id=user_id).first()
+    user = User.query.filter_by(username=username).first()
     if user is None:
         resp = generate_resp(FAIL, '注销失败，用户名不存在')
     elif not check_password_hash(user.password, password):
@@ -57,17 +59,15 @@ def unregister():
 @bp.route('/login', methods=['POST'])
 def login():
     json = request.json
-    user_id = json['user_id']
+    username = json['username']
     password = json['password']
-    terminal = json['terminal']
-    user = User.query.filter_by(user_id=user_id).first()
+    user = User.query.filter_by(username=username).first()
     if user is None:
         resp = generate_resp(FAIL, '登录失败，用户名不存在!')
     elif not check_password_hash(user.password, password):
         resp = generate_resp(FAIL, '登录失败，密码错误')
     else:
-        token = jwt_encode(user_id, terminal)
-        user.terminal = terminal
+        token = jwt_encode(username)
         user.token = token
         db.session.commit()
         resp = jsonify(message="ok", token=token)
@@ -78,30 +78,32 @@ def login():
 @bp.route('/logout', methods=['POST'])
 def logout():
     token = request.headers.get('token')
-    user_id = request.json.get("user_id", "")
+    username = request.json.get("username", "")
     # token可能有错
     de_token = jwt_decode(token)
-    if de_token is None:
+    # print(de_token)
+    if de_token['user_id'] != username:
         resp = generate_resp(FAIL, "登出失败, token错误")
     else:
-        terminal = de_token['terminal']
-        user = User.query.filter_by(user_id=user_id, terminal=terminal).first()
+        user = User.query.filter_by(username=username).first()
         if user is None:
             resp = generate_resp(FAIL, "登出失败, 用户名错误")
-        else:
+        elif user.token:
             user.token = None
             db.session.commit()
             resp = generate_resp(SUCCESS, 'ok')
+        else:
+            resp = generate_resp(FAIL, "登出失败, 不要重复登出")
     return resp
 
 
 @bp.route('/password', methods=['POST'])
 def change_pwd():
     json = request.json
-    user_id = json['user_id']
+    username = json['username']
     old_password = json['oldPassword']
     new_password = json['newPassword']
-    user = User.query.filter_by(user_id=user_id).first()
+    user = User.query.filter_by(username=username).first()
     if user is None:
         resp = generate_resp(FAIL, "修改失败, 用户名不存在")
     elif not check_password_hash(user.password, old_password):

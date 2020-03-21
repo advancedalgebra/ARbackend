@@ -1,11 +1,10 @@
 ## 基本情况
 
 - 数据库：mysql
-
 - 端口：120.79.19.172:3306
-- baseUrl：/ar/api
-- 若不特别说明属性均为String类型、长度为40，自增属性类型为Integer
-- 为方便测试，不使用外键约束
+- 若不特别说明属性均为String类型、长度为40且非空，自增属性类型为Integer
+- 暂时不使用外键约束
+- 测试暂时以手动的方式进行
 
 ## Schema
 
@@ -18,9 +17,10 @@
 
 ### User
 
-- 属性：user_id、username、password、token
+- 属性：username、password、token
 - token长度为1000
-- user_id为主键且自增
+- password长度为400
+- username为主键
 
 ### event
 
@@ -28,136 +28,138 @@
 - event_id为主键且自增
 - content长度为400
 
-### 识别建筑
-
-#### URL
-
-GET /building/where?latitude=latitude&longitude=longitude&range=range
-
-#### 说明
-
-此接口用来通过用户位置判断要识别的建筑，返回建筑ID。若不能准确判断是哪个建筑，返回一个列表，按可信度排序
-
-#### Request
-
-##### Header:
-
-```json
-{
-  "content-type": "application/json"
-}
-```
-
-#### Response
-
-##### Body:
-
-```json
-{
-    [
-    	"building_id": 0,
-    	"name": 0,
-    	"description": "",
-    ]
-
-}
-```
-
-##### 属性说明：
-
-暂无
-
-### 获取建筑信息
-
-#### URL
-
-GET /building/content?building_id=building_id
-
-#### 说明
-
-此接口通过建筑id获取建筑的信息，与上一接口是否合并成一个接口自行决定并修改此文件
-
-#### Request
-
-##### Header:
-
-```json
-{
-  "content-type": "application/json"
-}
-```
-
-#### Response
-
-##### Body:
-
-```json
-{
-    "building_id": 0,
-    "name": 0,
-    "description": "",
-}
-```
-
-##### 属性说明：
-
-暂无
-
 ## 用户相关操作
+
+headers统一都有
+
+```json
+{
+  "content-type": "application/json"
+}
+```
+
+### Register
+
+1. url：/ar/api/auth/register  POST
+
+2. Request（body）
+
+   ```json
+   {
+     	"username": String,
+     	"password": String,
+   	“password_again”: String,
+   }
+   ```
+
+3. Response（body）
+
+   ```json
+   {
+     	"message": "ok",
+   }
+   ```
+
+4. 检查错误：用户名重复、密码不一致
+
+### Change Password
+
+1. url：/ar/api/auth/password  POST
+
+2. Request（body）
+
+   ```json
+   {
+     	"username": String,
+     	"oldPassword": String,
+   	“newPassword”: String,
+   }
+   ```
+
+3. Response（body）
+
+   ```json
+   {
+     	"message": "ok",
+   }
+   ```
+
+4. 检查错误：旧密码错误，用户名不存在
 
 ### Login
 
-1. url：POST /auth/login
+1. url：/ar/api/auth/login  POST
 
-#### Request
-##### header
-```json
-{
-  "content-type": "application/json"
-}
-```
-#### body
-```json
-{
-  "username": "xxx",
-  "password": "xxx"
-}
-```
-### Response
-#### body
-```json
-{
-  "message": "xxx",
-  "token": ""
-}
-```
-### Register
+2. Request（body）
 
-#### url
+   ```json
+   {
+     	"username": String,
+     	"password": String,
+   }
+   ```
 
-POST /auth/register
+3. Response（body）
 
-#### Request
-##### header
-```json
-{
-  "content-type": "application/json"
-}
-```
-##### body
-```json
-{
-  "username": "xxx",
-  "password": "xxx",
-  "student_id": "xxx"
-}
-```
-#### Response
-##### body
-```json
-{
-  "message": "xxx",
-}
-```
+   ```json
+   {
+     	"message": "ok",
+       "token"：生成的token
+   }
+   ```
 
-## Test
+4. 检查错误：密码错误，用户名不存在
+
+### Logout
+
+1. url：/ar/api/auth/logout  POST
+
+2. Request（headers）
+
+   ```json
+   {
+     	"content-type": "application/json"
+       "token": 自己的token
+   }
+   ```
+
+3. Request（body）
+
+   ```json
+   {
+     	"username": String,
+   }
+   ```
+
+4. Response（body）
+
+   ```json
+   {
+     	"message": "ok",
+   }
+   ```
+
+4. 检查错误：用户名错误、token错误、重复登出
+
+### Unregister
+
+1. url：/ar/api/auth/unregister  POST
+
+2. Request（body）
+
+   ```json
+   {
+     	"username": String,
+     	"password": String,
+   }
+   ```
+
+3. Response（body）
+
+   ```json
+   {
+     	"message": "ok",
+   }
+   ```
+
+4. 检查错误：密码错误，用户名不存在

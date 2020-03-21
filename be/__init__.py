@@ -28,9 +28,8 @@ def create_app():
 
 class User(db.Model):
     __tablename__ = 'User'
-    user_id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(40), nullable=False)
-    password = db.Column(db.String(40), nullable=False)
+    username = db.Column(db.String(40), unique=True, primary_key=True)
+    password = db.Column(db.String(400), nullable=False)
     token = db.Column(db.String(1000), nullable=True)
 
     def __init__(self, username, password, token=None):
