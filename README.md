@@ -118,7 +118,7 @@ headers统一都有
 
    ```json
    {
-     "content-type": "application/json"
+     "content-type": "application/json",
      "token": "自己的token"
    }
    ```
