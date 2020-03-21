@@ -72,7 +72,7 @@ headers统一都有
    {
      "username": "string",
      "oldPassword": "string",
-     “newPassword”: "string",
+     "newPassword": "string",
    }
    ```
 
@@ -104,7 +104,7 @@ headers统一都有
    ```json
    {
      "message": "ok",
-     "token"："生成的token"
+     "token": "生成的token"
    }
    ```
 
