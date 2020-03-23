@@ -23,7 +23,7 @@
 ### Building
 
 - 属性：building_id、latitude_upper 、longitude_upper、latitude_lower、longitude_lower、name、description
-- llatitude_upper 、longitude_upper、latitude_lower、longitude_lower为float类型，指示建筑范围
+- latitude_upper 、longitude_upper、latitude_lower、longitude_lower为float类型，指示建筑范围
 - building_id为主键且自增
 - description长度为400
 
