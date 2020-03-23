@@ -78,10 +78,16 @@ def login():
 @bp.route('/logout', methods=['POST'])
 def logout():
     token = request.headers.get('token')
+    if token == "":
+        resp = generate_resp(FAIL, "查询失败, token错误")
+        return resp
     username = request.json.get("username", "")
     # token可能有错
     de_token = jwt_decode(token)
     # print(de_token)
+    if de_token is None:
+        resp = generate_resp(FAIL, "查询失败, token错误")
+        return resp
     if de_token['user_id'] != username:
         resp = generate_resp(FAIL, "登出失败, token错误")
     else:

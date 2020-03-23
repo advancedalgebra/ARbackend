@@ -41,9 +41,10 @@ class User(db.Model):
 class Building(db.Model):
     __tablename__ = 'Building'
     building_id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
-    range = db.Column(db.Float, nullable=False)
+    latitude_upper = db.Column(db.Float, nullable=False)
+    longitude_upper = db.Column(db.Float, nullable=False)
+    latitude_lower = db.Column(db.Float, nullable=False)
+    longitude_lower = db.Column(db.Float, nullable=False)
     name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(400), nullable=False)
 

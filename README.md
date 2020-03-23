@@ -1,17 +1,29 @@
 ## 基本情况
 
 - 数据库：mysql
+
 - 端口：120.79.19.172:3306
+
 - 若不特别说明属性均为String类型、长度为40且非空，自增属性类型为Integer
+
+- headers统一都有
+
+  ```json
+  {
+    "content-type": "application/json"
+  }
+  ```
+
 - 暂时不使用外键约束
+
 - 测试暂时以手动的方式进行
 
 ## Schema
 
 ### Building
 
-- 属性：building_id、latitude、longitude、range（公差）、name、description
-- latitude、longitude和range为float类型
+- 属性：building_id、latitude_upper 、longitude_upper、latitude_lower、longitude_lower、name、description
+- llatitude_upper 、longitude_upper、latitude_lower、longitude_lower为float类型，指示建筑范围
 - building_id为主键且自增
 - description长度为400
 
@@ -29,14 +41,6 @@
 - content长度为400
 
 ## 用户相关操作
-
-headers统一都有
-
-```json
-{
-  "content-type": "application/json"
-}
-```
 
 ### Register
 
@@ -163,3 +167,58 @@ headers统一都有
    ```
 
 4. 检查错误：密码错误，用户名不存在
+
+## 建筑相关操作
+
+### 识别建筑
+
+1. url：/ar/api/location/building_id  POST
+
+2. Request（body）
+
+   ```json
+   {
+     "latitude": "float",
+     "latitude": "float",
+   }
+   ```
+
+3. Response（body）
+
+   ```json
+   {
+     "message": "list",
+   }
+   ```
+
+   返回一个元素为元组的列表，列表中包含所有可能的建筑，每一个元组包含建筑的id和名字
+
+4. 检查错误：建筑不存在
+
+### 获取建筑信息
+
+1. url：/ar/api/location/building_detail  POST
+
+2. Request（body）
+
+   ```json
+   {
+     "building_id": "Integer",
+   }
+   ```
+
+3. Response（body）
+
+   ```json
+   {
+     "message": "建筑的描述",
+   }
+   ```
+
+4. 检查错误：建筑不存在
+
+### 针对上两个的token版
+
+1. url：/ar/api/location/building_detail_token  POST        url：/ar/api/location/building_id_token  POST
+2. Request（headers）加上token，Request（body）加上username其余不变
+3. 检查错误：建筑不存在、用户名错误、token错误

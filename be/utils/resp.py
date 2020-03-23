@@ -14,27 +14,13 @@ def generate_resp(code, message):
     return resp
 
 
-def generate_resp_order(code, message):
-    resp = jsonify(order_id=message)
+def generate_resp_building(code, message):
+    resp = jsonify(building_list=message)
     resp.status_code = code
     return resp
 
-def generate_resp_store(code,store_list):
-    resp = jsonify(store_list=store_list)
-    resp.status_code = code
-    return resp
 
-def generate_resp_his_order(code, message):
-    resp = jsonify(order=message)
-    resp.status_code = code
-    return resp
-
-def generate_resp_goods(code,goods_list):
-    resp = jsonify(goods_list=goods_list)
-    resp.status_code = code
-    return resp
-
-def generate_resp_search(code,search_result):
-    resp = jsonify(search_result=search_result)
+def generate_resp_description(code, message):
+    resp = jsonify(description=message)
     resp.status_code = code
     return resp
