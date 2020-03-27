@@ -30,7 +30,7 @@ def building_id():
     building_all = Building.query.filter(and_(Building.latitude_lower < latitude, Building.latitude_upper > latitude)).\
         filter(and_(Building.longitude_lower < longitude, Building.longitude_upper > longitude)).all()
     for building in building_all:
-        result.append((building.building_id, building.name))
+        result.append({'Id': building.building_id, 'Name':  building.name})
     if len(result) == 0:
         resp = generate_resp(FAIL, '没有查找到相关建筑')
     else:
@@ -66,7 +66,7 @@ def building_id_token():
                 and_(Building.latitude_lower < latitude, Building.latitude_upper > latitude)). \
                 filter(and_(Building.longitude_lower < longitude, Building.longitude_upper > longitude)).all()
             for building in building_all:
-                result.append((building.building_id, building.name))
+                result.append({'Id': building.building_id, 'Name':  building.name})
             if len(result) == 0:
                 resp = generate_resp(FAIL, '没有查找到相关建筑')
             else:
