@@ -19,9 +19,11 @@ def create_app():
 
     from be.view import auth
     from be.view import location
+    from be.view import init_db
 
     application.register_blueprint(auth.bp, url_prefix='/ar/api/auth')
     application.register_blueprint(location.bp, url_prefix='/ar/api/location')
+    application.register_blueprint(init_db.bp, url_prefix='/init')
 
     return application
 
@@ -46,27 +48,28 @@ class Building(db.Model):
     latitude_lower = db.Column(db.Float, nullable=False)
     longitude_lower = db.Column(db.Float, nullable=False)
     name = db.Column(db.String(40), nullable=False)
-    description = db.Column(db.String(400), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
 
-    def __init__(self, latitude, longitude, range, name, description):
+    def __init__(self, latitude_upper, longitude_upper, latitude_lower, longitude_lower, name, description):
         self.name = name
-        self.range = range
+        self.latitude_upper = latitude_upper
         self.description = description
-        self.latitude = latitude
-        self.longitude = longitude
+        self.latitude_lower = latitude_lower
+        self.longitude_lower = longitude_lower
+        self.longitude_upper = longitude_upper
 
 
 class Event(db.Model):
     __tablename__ = 'Event'
     event_id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
-    building_id = db.Column(db.String(40), nullable=False)
-    user_id = db.Column(db.String(40), nullable=False)
+    building_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(40), nullable=False)
     title = db.Column(db.String(40), nullable=False)
     content = db.Column(db.String(400), nullable=False)
     time = db.Column(db.String(40), nullable=False)
 
-    def __init__(self, building_id, user_id, title, content, time):
-        self.user_id = user_id
+    def __init__(self, building_id, username, title, content, time):
+        self.username = username
         self.building_id = building_id
         self.title = title
         self.content = content

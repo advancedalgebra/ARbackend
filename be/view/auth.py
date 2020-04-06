@@ -4,7 +4,7 @@
 # @contact: redpeanut@163.com
 # @Time    : 2020/3/21 17:21
 # @File    : auth.py
-from flask import Blueprint, session, escape, request, jsonify
+from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import be as app
 from be.utils.config import *

@@ -7,7 +7,6 @@
 from operator import and_
 
 from flask import Blueprint, request
-from werkzeug.security import check_password_hash
 import be as app
 from be.utils.config import *
 from be.utils.resp import *

@@ -25,7 +25,7 @@
 - 属性：building_id、latitude_upper 、longitude_upper、latitude_lower、longitude_lower、name、description
 - latitude_upper 、longitude_upper、latitude_lower、longitude_lower为float类型，指示建筑范围
 - building_id为主键且自增
-- description长度为400
+- description长度为1000
 
 ### User
 
@@ -36,8 +36,9 @@
 
 ### event
 
-- 属性：event_id、building_id、user_id、title、content、time
+- 属性：event_id、building_id、username、title、content、time
 - event_id为主键且自增
+- building_id为Integer类型
 - content长度为400
 
 ## 用户相关操作
